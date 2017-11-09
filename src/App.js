@@ -33,19 +33,17 @@ class App extends Component {
   render() {
     console.log(this.state);
     return (
-      <BrowserRouter>
         <div>
           <Switch>
-            <Route path="/login" render={() => (
-              this.isLoggedIn() ? (<Redirect to="/projects" />) : <LoginPage updateToken={this.updateUser} />
-            )} />
-            <Route path="/" render={() => (<SideNav user={this.state.user}/>)}>
-              <PrivateRoute path="projects" component={ProjectsPage} user={this.state.user}/>
-              <Route render={() => (<div>Page Not Found</div>)} />
-            </Route>
+            <Route path="/login" render={() => (this.isLoggedIn() ? (<Redirect to="/projects" />) : <LoginPage updateToken={this.updateUser} />)} />
+            <SideNav firstname={this.state.user.firstname} lastname={this.state.user.lastname}>
+              <Switch>
+                <PrivateRoute path="/projects" component={ProjectsPage} user={this.state.user}/>
+                <Route path="*" render={() => (<h1>Page Not Found.</h1>)}/>
+              </Switch>
+            </SideNav>
           </Switch>
         </div>
-      </BrowserRouter>
     );
   }
 }
