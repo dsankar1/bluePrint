@@ -13,6 +13,7 @@
     "react-router-dom": "^4.2.2",
     "react-routing": "0.0.7",
     "react-scripts": "1.0.14",
+    "reactstrap": "^4.8.0",
     "redux": "^3.7.2"
   },
   "scripts": {

@@ -5,6 +5,14 @@
     z-index: 1;
     top: 0;
     left: 0;
+    text-align: center;
+    background: #4355A7;
+    background: -webkit-linear-gradient(#27315F, #4355A7);
+    background: -webkit-linear-gradient(#27315F, #4355A7);
+    background: -o-linear-gradient(#27315F, #4355A7);
+    background: -moz-linear-gradient(#27315F, #4355A7);
+    background: linear-gradient(#27315F, #4355A7);
+
     border-block-end: block;
     background-color:none;
     overflow-x: hidden;
@@ -12,15 +20,15 @@
 }
 
 .sidenav a {
-    padding: 6px 6px 6px 32px;
     text-decoration: none;
-    font-size: 25px;
-    color: #818181;
+    font-size: 20px;
+    color: #f1f1f1;
     display: block;
+    padding: 14px 0px;
 }
 
 .sidenav a:hover {
-    color: #f1f1f1;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .main {

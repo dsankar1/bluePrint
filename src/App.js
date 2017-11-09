@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 // components
 import LoginPage from "./components/LoginPage";
+import ProjectsPage from "./components/ProjectsPage"
 import LandingPage from "./components/LandingPage";
 import SideNav from "./components/SideNav";
 import PrivateRoute from "./components/PrivateRoute";
@@ -39,6 +40,10 @@ class App extends Component {
             <Route exact path="/" render={() => (
               this.isLoggedIn() ? (<Redirect to="/landing" />) : <LoginPage updateToken={this.updateUser} />
             )} />
+
+            <SideNav>
+              <Route path="/projects" component={ProjectsPage}/>
+            </SideNav>
 
             <PrivateRoute path="/landing" component={LandingPage} user={this.state.user}/>
 
