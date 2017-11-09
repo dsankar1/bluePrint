@@ -2,6 +2,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import logo from "../res/blueprint_logo.png";
 import axios from "axios";
+import "../css/LoginPage.css";
 
 class LoginPage extends React.Component {
     constructor(props) {

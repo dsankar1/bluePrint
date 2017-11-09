@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 // components
 import LoginPage from "./components/LoginPage";
-import LandingPage from "./components/LandingPage";
+import ProjectsPage from "./components/ProjectsPage";
 import SideNav from "./components/SideNav";
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -36,13 +36,13 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Switch>
-            <Route exact path="/" render={() => (
-              this.isLoggedIn() ? (<Redirect to="/landing" />) : <LoginPage updateToken={this.updateUser} />
+            <Route path="/login" render={() => (
+              this.isLoggedIn() ? (<Redirect to="/projects" />) : <LoginPage updateToken={this.updateUser} />
             )} />
-
-            <PrivateRoute path="/landing" component={LandingPage} user={this.state.user}/>
-
-            <Route render={() => (<div>Page Not Found</div>)} />
+            <Route path="/" render={() => (<SideNav user={this.state.user}/>)}>
+              <PrivateRoute path="projects" component={ProjectsPage} user={this.state.user}/>
+              <Route render={() => (<div>Page Not Found</div>)} />
+            </Route>
           </Switch>
         </div>
       </BrowserRouter>
