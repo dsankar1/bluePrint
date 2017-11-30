@@ -1,11 +1,17 @@
 // react
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
+
+// bootstrap
+import "./Bootstrap/dist/css/bootstrap.min.css";
+import "./Bootstrap/dist/js/bootstrap.min.js";
+
 // components
-import LoginPage from "./components/LoginPage";
-import ProjectsPage from "./components/ProjectsPage"
-import LandingPage from "./components/LandingPage";
-import SideNav from "./components/SideNav";
+import Login from "./components/Login";
+import Nav from "./components/Nav";
+import Projects from "./components/Projects";
+import ProjectDetails from "./components/ProjectDetails";
+import NotFound from "./components/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
 
 class App extends Component {
@@ -31,26 +37,20 @@ class App extends Component {
     return this.state.user.valid;
   }
 
-  render() {
-    console.log(this.state);
+  render() {  
     return (
-      <BrowserRouter>
         <div>
           <Switch>
-            <Route exact path="/" render={() => (
-              this.isLoggedIn() ? (<Redirect to="/landing" />) : <LoginPage updateToken={this.updateUser} />
-            )} />
-
-            <SideNav>
-              <Route path="/projects" component={ProjectsPage}/>
-            </SideNav>
-
-            <PrivateRoute path="/landing" component={LandingPage} user={this.state.user}/>
-
-            <Route render={() => (<div>Page Not Found</div>)} />
+            <Route exact path="/login" render={ () => (this.isLoggedIn() ? (<Redirect to="/projects" />) : <Login updateUser={ this.updateUser } />) } />
+            <Nav firstname={ this.state.user.firstname } lastname={ this.state.user.lastname } updateUser={ this.updateUser }>
+              <Switch>
+                <PrivateRoute exact path="/projects" component={ Projects } user={ this.state.user }/>
+                <PrivateRoute exact path="/projects/:id" component={ ProjectDetails } user={ this.state.user }/>
+                <PrivateRoute component={ NotFound } user={ this.state.user }/>
+              </Switch>
+            </Nav>
           </Switch>
         </div>
-      </BrowserRouter>
     );
   }
 }
