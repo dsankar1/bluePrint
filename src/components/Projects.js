@@ -79,6 +79,10 @@ class Projects extends React.Component {
     projectList() {
         return (
             <div id="projects" className="gray-border">
+                <div className="page-header">
+                    Projects
+                </div>
+                <hr/>
                 <input type="text" className="form-control filter-projects-input" name="search" placeholder="Search..."
                     onChange={ event => this.setState({ filter: event.target.value }) }/>
                 <CreateProject user={ this.props.user } addProject={ this.addProject }/>
@@ -105,9 +109,6 @@ class Projects extends React.Component {
     render() {
         return (
             <div>
-                <div className="page-header">
-                    Projects
-                </div>
                 { this.state.projects === undefined ? this.loading() : this.projectList() }
             </div>
         )

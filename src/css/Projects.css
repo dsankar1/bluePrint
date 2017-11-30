@@ -92,7 +92,7 @@ td:first-child + td {
     float: right;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 700px) {
     .table th:first-child + th,
     th:first-child + th + th,
     th:first-child + th + th + th,

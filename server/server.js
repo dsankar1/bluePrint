@@ -118,12 +118,15 @@ apiRoutes.use(function (req, res, next) {
     }
 });
 
+// x-access-token http header needs to be included from here
 app.use('/api', apiRoutes);
 
-// x-access-token http header needs to be included
 app.get("/api/projects", (req, res) => {
     var username = req.decoded.username;
-    var sql = "select projects.id, projects.title, projects.risk_status, projects.requirements_hours, projects.designing_hours, projects.coding_hours, projects.testing_hours, projects.management_hours, projects.manager_name, projects.description from project_access left outer join projects on project_access.project_id = projects.id where project_access.username = '" + username + "';";
+    var sql = "select projects.id, projects.title, projects.risk_status, projects.requirements_hours," + 
+        "projects.designing_hours, projects.coding_hours, projects.testing_hours, projects.management_hours," + 
+        "projects.manager_name, projects.description from project_access left outer join projects on project_access.project_id =" + 
+        "projects.id where project_access.username = '" + username + "';";
     executeQuery(sql, function(err, results) {
         if (err) {
             console.log(err);
@@ -138,13 +141,43 @@ app.get("/api/projects", (req, res) => {
 app.get("/api/projects/:id", (req, res) => {
     var username = req.decoded.username;
     var id = req.params.id;
-    var sql = "select project_access.manager, projects.*, functional_requirements.description as functional_requirements, nonfunctional_requirements.description as nonfunctional_requirements, risks.description as risks from (((project_access left outer join projects on project_access.project_id = projects.id) left outer join risks on project_access.project_id = risks.project_id) left outer join functional_requirements on project_access.project_id = functional_requirements.project_id) left outer join nonfunctional_requirements on project_access.project_id = nonfunctional_requirements.project_id where project_access.username = '" + username + "' and project_access.project_id ='" + id + "';";
-    executeQuery(sql, function(err, results) {
+
+    var project_sql = "select * from projects where id=" + id + ";";
+    var functional_sql = "select id, description from functional_requirements where project_id=" + id + ";";
+    var nonfunctional_sql = "select id, description from nonfunctional_requirements where project_id=" + id + ";";
+    var risk_sql = "select id, description from risks where project_id=" + id + ";";
+    var member_sql = "select id, username, manager from project_access where project_id=" + id + ";";
+
+    executeQuery(project_sql, function(err, project) {
         if (err) {
-            res.json({success: false, error: err});
+            res.json({ success: false, error: err });
         }
         else {
-            res.json({ success: true, project: results[0] });
+            executeQuery(functional_sql, (err, functional_requirements) => {
+                if (err) {
+                    res.json({ success: false, error: err });
+                }
+                else {
+                    executeQuery(nonfunctional_sql, (err, nonfunctional_requirements) => {
+                        if (err) {
+                            res.json({ success: false, error: err });
+                        }
+                        else {
+                            executeQuery(risk_sql, (err, risks) => {
+                                if (err) {
+                                    res.json({ success: false, error: err });
+                                }
+                                else {
+                                    executeQuery(member_sql, (err, project_members) => {
+                                        res.json({ success: true, details: project[0], functional_requirements, 
+                                            nonfunctional_requirements, risks, project_members });
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         }
     });
 });

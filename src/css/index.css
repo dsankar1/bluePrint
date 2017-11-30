@@ -134,27 +134,20 @@ body {
     color: white;
 }
 
-.blue-border {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    background: #f2f2f2;
-    color: #354381;
-}
-
 .gray-border {
   width: 100%;
-  border: 1px solid rgba(39, 49, 95, 0.1);
   padding: 20px;
   background: white;
   margin-bottom: 10px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4);
 }
 
 .page-header {
     color: white;
-    padding: 14px;
-    font-size: 30px;
+    font-size: 28px;
+    margin: 0;
+    padding: 10px;
     text-align: center;
-    margin: 0 auto;
-    background: #2f395c; 
+    background: #475581;
     border: none;
 }

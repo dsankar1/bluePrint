@@ -52,7 +52,7 @@ const Nav = (props) => (
             </ul>
         </nav>
         <div id="page-content" className="dark-blue-background">
-            <div className="container-fluid">
+            <div className="container">
                 { props.children }
             </div>
         </div>
